@@ -1,5 +1,5 @@
 # CRF
-CRF for Biofarma
+CRF for Biofarma [![Build Status](https://travis-ci.org/staticbass/koa-crf.svg?branch=master)](https://travis-ci.org/staticbass/koa-crf)
 
 ### Available requests
 **Public:** <br/>
