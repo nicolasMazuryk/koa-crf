@@ -3,9 +3,12 @@
  */
 
 import Router from 'koa-router'
+import clinics from './clinic'
 import * as controller from '../../controllers/research'
 
 const router = new Router()
+
+router.use('/:rid/clinics', clinics.routes())
 
 router
   .get('/', controller.getResearches)

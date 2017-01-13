@@ -44,4 +44,14 @@ function Unauthorized (message) {
 
 Unauthorized.prototype = Object.create(Error.prototype)
 
-export default { Unauthorized, NotFound, BadRequest, handleError }
+function Forbidden (message) {
+  this.name = 'Forbidden'
+  this.status = 403
+  this.message = message
+  Error.call(this, message)
+  Error.captureStackTrace(this, Unauthorized)
+}
+
+Forbidden.prototype = Object.create(Error.prototype)
+
+export default { Unauthorized, NotFound, BadRequest, Forbidden, handleError }

@@ -5,10 +5,16 @@
 module.exports = {
   BUILD_PATH: './build/server',
   SRC_PATH: './source/server',
-  development: {
-    DB_URL: 'mongodb://localhost/test-crf',
-    PORT: 4000,
-    TEST_PORT: 5555
+  production: {
+    DB_URL: 'mongodb://localhost/crf',
+    PORT: 4000
   },
-  production: {}
+  development: {
+    DB_URL: 'mongodb://localhost/dev-crf',
+    PORT: 4001
+  },
+  test: {
+    DB_URL: 'mongodb://localhost/test-crf',
+    PORT: 4002
+  }
 }

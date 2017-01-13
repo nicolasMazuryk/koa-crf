@@ -25,9 +25,7 @@ export const login = async (ctx) => {
 
 export const logout = async (ctx) => {
   try {
-    const [, token] = ctx.headers['authorization'].split(' ')
-    const user = await User.findOne({ token })
-    await user.validateToken(token)
+    const user = ctx.state.user
     user.token = ''
     await user.save()
     return ctx.body = { payload: true }

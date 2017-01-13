@@ -5,11 +5,11 @@
 import Router from 'koa-router'
 import * as controller from '../../controllers/user'
 
-const users = new Router()
+const router = new Router()
 
-users
+router
   .get('/', controller.getUsers)
   .post('/', controller.postUser)
   .delete('/', controller.deleteUser)
 
-export default users
+export default router

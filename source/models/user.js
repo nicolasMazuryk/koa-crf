@@ -2,7 +2,7 @@
  * Created by supervlad on 12/7/16.
  */
 
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 
@@ -46,11 +46,11 @@ const verifyToken = (token) => {
   })
 }
 
-const User = new mongoose.Schema({
+const User = new Schema({
 
   phone: { type: Number, required: true },
   password: { type: String, required: true },
-  name: { type: String },
+  name: { type: String, default: null },
   role: {
     type: String,
     validate: {
@@ -60,6 +60,7 @@ const User = new mongoose.Schema({
     required: true
   },
 
+  clinicId: { type: Schema.Types.ObjectId, default: null },
   salt: String,
   token: { type: String, default: '' }
 
