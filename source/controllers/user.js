@@ -32,8 +32,8 @@ export const postUser = async (ctx) => {
 
 export const deleteUser = async (ctx) => {
   try {
-    const user = await User.findByIdAndRemove(ctx.params.id)
-    ctx.body = { payload: user }
+    const result = await User.findOneAndRemove({ _id: ctx.query.id })
+    ctx.body = { payload: result ? true : result }
   }
   catch (error) {
     ctx.throw(error)

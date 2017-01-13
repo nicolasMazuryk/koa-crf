@@ -27,7 +27,7 @@ export const getResearch = async (ctx) => {
 
 export const postResearch = async (ctx) => {
   try {
-    const newResearch = new Research(ctx.body)
+    const newResearch = new Research(ctx.request.body)
     await newResearch.save()
     ctx.body = { payload: newResearch }
   }
@@ -40,7 +40,7 @@ export const deleteResearch = async (ctx) => {
   try {
     const id = ctx.params.rid
     const removed = await Research.findByIdAndRemove(id)
-    ctx.body = { payload: removed }
+    ctx.body = { payload: removed ? true : removed }
   }
   catch (error) {
     ctx.throw(error)

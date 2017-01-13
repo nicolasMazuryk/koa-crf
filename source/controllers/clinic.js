@@ -5,7 +5,7 @@
 import Clinic from '../models/clinic'
 import Research from '../models/research'
 
-export const getClinic = async (ctx) => {
+export const getClinics = async (ctx) => {
   try {
     const rid = ctx.params.rid
     const { clinics: ids } = await Research.findById(rid, 'clinics')
@@ -20,7 +20,7 @@ export const getClinic = async (ctx) => {
 export const postClinic = async (ctx) => {
   try {
     const id = ctx.params.rid
-    const newClinic = new Clinic(ctx.body)
+    const newClinic = new Clinic(ctx.request.body)
     await Promise.all([
       Research.findByIdAndUpdate(id, { $push: { clinics: newClinic._id } }),
       newClinic.save()
@@ -39,7 +39,7 @@ export const deleteClinic = async (ctx) => {
       Clinic.findByIdAndRemove(cid),
       Research.findByIdAndUpdate(rid, {$pull: {clinics: cid}})
     ])
-    ctx.body = { payload: deleted }
+    ctx.body = { payload: deleted ? true : deleted }
   }
   catch (error) {
     ctx.throw(error)

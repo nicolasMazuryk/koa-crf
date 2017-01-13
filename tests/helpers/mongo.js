@@ -7,7 +7,7 @@ import config from '../../config'
 
 mongoose.Promise = global.Promise
 
-const url = config.development.DB_URL
+const url = config.test.DB_URL
 
 mongoose.connect(url)
 

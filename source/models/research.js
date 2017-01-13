@@ -9,8 +9,8 @@ const Schema = mongoose.Schema
 const Research = new Schema({
 
   name: { type: String, required: true },
-  date_start: { type: Date, default: Date.now() },
-  date_end: Date,
+  dateStart: { type: Date, default: Date.now() },
+  dateEnd: { type: Date, default: null },
   clinics: { type: [Schema.Types.ObjectId], default: [] }
 
 })

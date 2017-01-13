@@ -3,28 +3,37 @@
  */
 
 import Koa from 'koa'
-import mongoose from 'mongoose'
-import config from '../config'
 import bodyParser from 'koa-bodyparser'
 import logger from './middleware/logger'
 import error from './middleware/error'
+import session from './middleware/session'
 import router from './routes'
-
-mongoose.Promise = global.Promise
+import config from '../config'
+import mongoose from 'mongoose'
 
 const app = new Koa()
-const isDev = process.env.NODE_ENV === 'development'
+const env = process.env.NODE_ENV
+const isDev = env === 'development'
 
-mongoose.connect(
-  config.development.DB_URL,
-  () => console.log('> connected to DB')
-)
-
-isDev && app.use(logger)
-app.use(error)
+isDev && app.use(logger())
+app.use(session())
+app.use(error())
 app.use(bodyParser())
 
 // app use main router
 router(app)
 
-export default app
+const run = () => {
+  const dbUrl = config[env].DB_URL
+  const port = config[env].PORT
+  console.log(`> run at NODE_ENV=${env}`)
+  mongoose.Promise = global.Promise
+  mongoose.connect(dbUrl, (err) => {
+    console.log(err || `> connected to ${dbUrl}`)
+    app.listen(port, (err) => console.log(err || `> listening at ${port} port`))
+  })
+  return app
+}
+
+export { app, run }
+
