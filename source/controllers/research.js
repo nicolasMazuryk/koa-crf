@@ -3,6 +3,8 @@
  */
 
 import Research from '../models/research'
+import Clinic from '../models/clinic'
+import Patient from '../models/patient'
 
 export const getResearches = async (ctx) => {
   try {
@@ -28,8 +30,8 @@ export const getResearch = async (ctx) => {
 export const postResearch = async (ctx) => {
   try {
     const newResearch = new Research(ctx.request.body)
-    await newResearch.save()
-    ctx.body = { payload: newResearch }
+    const created = await newResearch.save()
+    ctx.body = { payload: created }
   }
   catch (error) {
     ctx.throw(error)
@@ -39,7 +41,11 @@ export const postResearch = async (ctx) => {
 export const deleteResearch = async (ctx) => {
   try {
     const id = ctx.params.rid
-    const removed = await Research.findByIdAndRemove(id)
+    const [removed] = await Promise.all([
+      Research.remove({ _id: id }),
+      Clinic.remove({ researchId: id }),
+      Patient.remove({ researchId: id })
+    ])
     ctx.body = { payload: removed ? true : removed }
   }
   catch (error) {

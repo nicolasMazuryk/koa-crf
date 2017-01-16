@@ -16,5 +16,5 @@ const conn = mongoose.connection
 export default {
   before: (done) => conn.on('open', () => conn.db.dropDatabase(done)),
   after: (done) => conn.close(done),
-  drop: (done) => conn.db.dropDatabase(done)
+  drop: (done) => mongoose.connection.dropDatabase(done)
 }

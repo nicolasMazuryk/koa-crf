@@ -10,7 +10,8 @@ const router = new Router()
 router
   .get('/', controller.getPatients)
   .post('/', controller.postPatient)
-  .put('/:cid', controller.putPatient)
-  .delete('/:cid', controller.deletePatient)
+  .get('/:pid', controller.getPatient)
+  .put('/:pid', controller.putPatient)
+  .delete('/:pid', controller.deletePatient)
 
 export default router

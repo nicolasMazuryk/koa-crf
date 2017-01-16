@@ -17,7 +17,7 @@ describe('User model #save',function () {
     role: 'admin'
   }
 
-  beforeEach(done => {
+  before(done => {
     db.drop(done)
   })
 

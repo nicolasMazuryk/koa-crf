@@ -13,6 +13,7 @@ router.use('/:cid/patients', patient.routes())
 router
   .get('/', controller.getClinics)
   .post('/', controller.postClinic)
+  .get('/:cid', controller.getClinic)
   .delete('/:cid', controller.deleteClinic)
 
 export default router
