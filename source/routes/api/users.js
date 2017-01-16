@@ -10,6 +10,7 @@ const router = new Router()
 router
   .get('/', controller.getUsers)
   .post('/', controller.postUser)
-  .delete('/', controller.deleteUser)
+  .get('/:id', controller.getUser)
+  .delete('/:id', controller.deleteUser)
 
 export default router
