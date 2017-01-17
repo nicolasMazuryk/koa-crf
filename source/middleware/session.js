@@ -2,7 +2,7 @@
  * Created by supervlad on 1/13/17.
  */
 
-import User from '../models/user'
+import error from '../tools/error'
 
 export default () => {
   return async (ctx, next) => {
@@ -10,8 +10,10 @@ export default () => {
       const header = ctx.headers['authorization']
       if (header) {
         const [, token] = header.split(' ')
-        const user = await User.findOne({ token })
-        await user.validateToken(token)
+        const [isValid, user] = await user.validateToken(token)
+        if (!isValid) {
+          return ctx.throw(new error.BadRequest('Invalid token'))
+        }
         ctx.state.user = user
         return next()
       }
