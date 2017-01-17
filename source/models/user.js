@@ -89,7 +89,8 @@ User.methods.generateToken = async function generateToken() {
 
 User.methods.validateToken = async function validateToken(token) {
   const { id, phone, role } = await verifyToken(token)
-  return id == this._id && phone == this.phone && role == this.role
+  const isValid = id == this._id && phone == this.phone && role == this.role
+  return [isValid, { id, phone, role }]
 }
 
 export default mongoose.model('User', User)
