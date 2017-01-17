@@ -7,9 +7,8 @@ import Clinic from '../models/clinic'
 
 export const getUsers = async (ctx) => {
   try {
-    const { id } = ctx.params
-    const user = await User.find({}, '-salt -password -token')
-    ctx.body = { payload: user }
+    const users = await User.find({}, '-salt -password -token')
+    ctx.body = { payload: users }
   }
   catch (error) {
      ctx.throw(error)

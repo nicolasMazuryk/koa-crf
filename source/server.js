@@ -16,9 +16,9 @@ const env = process.env.NODE_ENV
 const isDev = env === 'development'
 
 isDev && app.use(logger())
+app.use(bodyParser())
 app.use(session())
 app.use(error())
-app.use(bodyParser())
 
 // app use main router
 router(app)

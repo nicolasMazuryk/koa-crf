@@ -4,13 +4,14 @@
 
 import Router from 'koa-router'
 import * as controller from '../../controllers/user'
+import checkAuth from '../../middleware/checkAuth'
 
 const router = new Router()
 
 router
-  .get('/', controller.getUsers)
-  .post('/', controller.postUser)
-  .get('/:id', controller.getUser)
-  .delete('/:id', controller.deleteUser)
+  .get('/', checkAuth('read:users'),  controller.getUsers)
+  .post('/', checkAuth('create:users'), controller.postUser)
+  .get('/:id', checkAuth('read:users'), controller.getUser)
+  .delete('/:id', checkAuth('delete:users'), controller.deleteUser)
 
 export default router
