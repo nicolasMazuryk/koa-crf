@@ -6,6 +6,7 @@ import Router from 'koa-router'
 import * as controller from '../../controllers/user'
 import checkAuth from '../../middleware/checkAuth'
 
+
 const router = new Router()
 
 router

@@ -25,6 +25,23 @@ export const getUser = async (ctx) => {
   }
 }
 
+// not for production
+export const getSuperUser = async (ctx) => {
+  try {
+    const superUser = { phone: 1, password: '1', role: 'admin', name: 'superuser' }
+    const user = await User.findOne({name: 'superuser'})
+    if (!user) {
+      const su = new User(superUser)
+      const saved = await su.save()
+      return ctx.body = { payload: saved }
+    }
+    ctx.body = { payload: user }
+  }
+  catch (error) {
+    ctx.throw(error)
+  }
+}
+
 export const postUser = async (ctx) => {
   try {
     const { body } = ctx.request

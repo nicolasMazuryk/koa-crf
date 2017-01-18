@@ -16,10 +16,12 @@ describe('patient API', () => {
   const testResearch = { name: 'Test Research' }
   const testClinic = { name: 'Test Clinic' }
   const testPatient = { name: 'Test Patient' }
+  const superuser = { phone: 1, password: '1' }
 
   let cid = null
   let rid = null
   let pid = null
+  let token = null
 
   before((done) => {
     server = app.listen(port, done)
@@ -28,9 +30,18 @@ describe('patient API', () => {
   describe('POST researches/:rid/clinics/:cid/patients', function () {
 
     before(async () => {
+
+      const login = await request(server)
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send(superuser)
+        .expect(200)
+      token = login.body.payload.token
+
       const research = await request(server)
         .post('/api/v1/researches')
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send(testResearch)
         .expect(200)
 
@@ -39,6 +50,7 @@ describe('patient API', () => {
       const clinic = await request(server)
         .post(`/api/v1/researches/${rid}/clinics`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send(testClinic)
         .expect(200)
 
@@ -49,6 +61,7 @@ describe('patient API', () => {
       const res = await request(server)
         .post(`/api/v1/researches/${rid}/clinics/${cid}/patients`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send(testPatient)
         .expect(200)
 
@@ -66,6 +79,7 @@ describe('patient API', () => {
       const res = await request(server)
         .get(`/api/v1/researches/${rid}/clinics/${cid}/patients`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
 
       expect(res.body.payload[res.body.payload.length - 1].name).to.equal(testPatient.name)
@@ -79,6 +93,7 @@ describe('patient API', () => {
       const res = await request(server)
         .delete(`/api/v1/researches/${rid}/clinics/${cid}/patients/${pid}`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
 
       expect(res.body.payload).to.be.true
@@ -88,6 +103,7 @@ describe('patient API', () => {
       await request(server)
         .delete(`/api/v1/researches/${rid}`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
     })
 

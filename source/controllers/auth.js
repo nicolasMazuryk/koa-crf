@@ -25,7 +25,8 @@ export const login = async (ctx) => {
 
 export const logout = async (ctx) => {
   try {
-    const user = ctx.state.user
+    const id = ctx.state.user.id
+    const user = await User.findById(id)
     user.token = ''
     await user.save()
     return ctx.body = { payload: true }
