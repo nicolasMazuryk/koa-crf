@@ -19,10 +19,12 @@ describe('user API', () => {
     password: 'test',
     phone: 123456789
   }
+  const superuser = { phone: 1, password: '1' }
 
   let id = null
   let rid = null
   let cid = null
+  let token = null
 
   before((done) => {
     server = app.listen(port, done)
@@ -31,9 +33,18 @@ describe('user API', () => {
   describe('POST /users', function () {
 
     before(async () => {
+      const login = await request(server)
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send(superuser)
+        .expect(200)
+
+      token = login.body.payload.token
+
       const research = await request(server)
         .post('/api/v1/researches')
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send({ name: 'user-research' })
         .expect(200)
 
@@ -42,6 +53,7 @@ describe('user API', () => {
       const clinic = await request(server)
         .post(`/api/v1/researches/${rid}/clinics`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send({ name: 'user-clinic' })
         .expect(200)
 
@@ -52,6 +64,7 @@ describe('user API', () => {
       const res = await request(server)
         .post('/api/v1/users')
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send(Object.assign(testUser, { clinicId: cid }))
         .expect(200)
 
@@ -64,6 +77,7 @@ describe('user API', () => {
     it('should save doctor id to clinic', async () => {
       const res = await request(server)
         .get(`/api/v1/researches/${rid}/clinics/${cid}`)
+        .set('Authorization', `Bearer ${token}`)
         .set('Content-Type', 'application/json')
         .expect(200)
 
@@ -77,6 +91,7 @@ describe('user API', () => {
     it('should return a list of users', async () => {
       const res = await request(server)
         .get('/api/v1/users')
+        .set('Authorization', `Bearer ${token}`)
         .set('Content-Type', 'application/json')
         .expect(200)
 
@@ -90,6 +105,7 @@ describe('user API', () => {
     it('should delete user', async () => {
       const res = await request(server)
         .delete(`/api/v1/users/${id}`)
+        .set('Authorization', `Bearer ${token}`)
         .set('Content-Type', 'application/json')
         .expect(200)
 
@@ -99,6 +115,7 @@ describe('user API', () => {
     after(async () => {
       await request(server)
         .delete(`/api/v1/researches/${rid}`)
+        .set('Authorization', `Bearer ${token}`)
         .set('Content-Type', 'application/json')
         .expect(200)
     })

@@ -3,6 +3,7 @@
  */
 
 import error from '../tools/error'
+import User from '../models/user'
 
 export default () => {
   return async (ctx, next) => {
@@ -10,15 +11,17 @@ export default () => {
       const header = ctx.headers['authorization']
       if (header) {
         const [, token] = header.split(' ')
-        const [isValid, user] = await user.validateToken(token)
-        if (!isValid) {
+        const user = await User.verifyToken(token)
+        if (!user) {
           return ctx.throw(new error.BadRequest('Invalid token'))
         }
         ctx.state.user = user
-        return next()
+        await next()
       }
-      ctx.state.user = null
-      return next()
+      else {
+        ctx.state.user = null
+        await next()
+      }
     }
     catch (error) {
       ctx.throw(error)

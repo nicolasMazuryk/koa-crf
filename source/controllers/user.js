@@ -7,9 +7,8 @@ import Clinic from '../models/clinic'
 
 export const getUsers = async (ctx) => {
   try {
-    const { id } = ctx.params
-    const user = await User.find({}, '-salt -password -token')
-    ctx.body = { payload: user }
+    const users = await User.find({}, '-salt -password -token')
+    ctx.body = { payload: users }
   }
   catch (error) {
      ctx.throw(error)
@@ -19,6 +18,23 @@ export const getUsers = async (ctx) => {
 export const getUser = async (ctx) => {
   try {
     const user = await User.findById(ctx.params.id, '-salt -password -token')
+    ctx.body = { payload: user }
+  }
+  catch (error) {
+    ctx.throw(error)
+  }
+}
+
+// not for production
+export const getSuperUser = async (ctx) => {
+  try {
+    const superUser = { phone: 1, password: '1', role: 'admin', name: 'superuser' }
+    const user = await User.findOne({name: 'superuser'})
+    if (!user) {
+      const su = new User(superUser)
+      const saved = await su.save()
+      return ctx.body = { payload: saved }
+    }
     ctx.body = { payload: user }
   }
   catch (error) {

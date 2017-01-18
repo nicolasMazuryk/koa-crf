@@ -4,14 +4,15 @@
 
 import Router from 'koa-router'
 import * as controller from '../../controllers/patient'
+import checkAuth from '../../middleware/checkAuth'
 
 const router = new Router()
 
 router
-  .get('/', controller.getPatients)
-  .post('/', controller.postPatient)
-  .get('/:pid', controller.getPatient)
-  .put('/:pid', controller.putPatient)
-  .delete('/:pid', controller.deletePatient)
+  .get('/', checkAuth('read:patients'), controller.getPatients)
+  .post('/', checkAuth('create:patients'), controller.postPatient)
+  .get('/:pid', checkAuth('read:patients'), controller.getPatient)
+  .put('/:pid', checkAuth('update:patients'), controller.putPatient)
+  .delete('/:pid', checkAuth('delete:patients'), controller.deletePatient)
 
 export default router

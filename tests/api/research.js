@@ -13,11 +13,11 @@ let server = null
 
 describe('research API', () => {
 
-  const testResearch = {
-    name: 'Test Research'
-  }
+  const testResearch = { name: 'Test Research' }
+  const superuser = { phone: 1, password: '1' }
 
   let id = null
+  let token = null
 
   before((done) => {
     server = app.listen(port, done)
@@ -25,10 +25,21 @@ describe('research API', () => {
 
   describe('POST /researches', function () {
 
+    before(async () => {
+      const login = await request(server)
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send(superuser)
+        .expect(200)
+
+      token = login.body.payload.token
+    })
+
     it('should create research', async () => {
       const res = await request(server)
         .post('/api/v1/researches')
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .send(testResearch)
         .expect(200)
 
@@ -47,6 +58,7 @@ describe('research API', () => {
       const res = await request(server)
         .get('/api/v1/researches')
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
 
       expect(res.body.payload[0].name).to.equal(testResearch.name)
@@ -60,6 +72,7 @@ describe('research API', () => {
       const res = await request(server)
         .delete(`/api/v1/researches/${id}`)
         .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
 
       expect(res.body.payload).to.be.true
