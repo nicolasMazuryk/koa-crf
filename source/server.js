@@ -10,12 +10,14 @@ import session from './middleware/session'
 import router from './routes'
 import config from '../config'
 import mongoose from 'mongoose'
+import cors from 'koa-cors'
 
 const app = new Koa()
 const env = process.env.NODE_ENV
 const isDev = env === 'development'
 
 isDev && app.use(logger())
+isDev && app.use(cors())
 app.use(bodyParser())
 app.use(session())
 app.use(error())

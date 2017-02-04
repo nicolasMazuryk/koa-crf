@@ -1,8 +1,8 @@
 {
   "name": "crf-biofarma-server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
     "build": "./node_modules/.bin/babel source -d build",
     "watch": "nodemon --exec NODE_ENV=development node index.js",
     "debug": "NODE_ENV=development node --debug index.js",
@@ -10,15 +10,13 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
-    "debug": "^2.2.0",
+    "debug": "^2.6.0",
     "jsonwebtoken": "^7.2.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
-    "koa-passport": "^2.2.2",
+    "koa-cors": "0.0.16",
     "koa-router": "^7.0.0",
-    "mongoose": "^4.7.7",
-    "passport-http-bearer": "^1.0.1",
-    "passport-local": "^1.0.0"
+    "mongoose": "^4.7.7"
   },
   "devDependencies": {
     "babel-cli": "^6.0.16",
