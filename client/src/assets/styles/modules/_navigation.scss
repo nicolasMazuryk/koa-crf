@@ -1,0 +1,68 @@
+.navigation {
+  width: 280px;
+  min-height: 100%;
+  background-color: $white;
+  z-index: 100;
+}
+
+.nav {
+  &-logo {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+  }
+
+  &-container {
+
+    .first-level {
+      & > li > .collapsible-header {
+        font-size: 16px;
+        font-weight: 500;
+      }
+     }
+
+    .second-level {
+      & > li > .collapsible-header {
+        padding-left: 40px;
+        font-size: 15px;
+        font-weight: 400;
+      }
+
+    }
+
+    .third-level {
+      & .collection-item {
+        padding-left: 60px;
+        font-size: 14px;
+        font-weight: 300;
+      }
+    }
+
+    .active,
+    .collapsible-header:hover,
+    .collection-item:hover {
+      background-color: $grey-hover;
+    }
+
+    // reset
+    .collapsible {
+      border: none;
+      margin: 0;
+      box-shadow: none;
+
+      &-header,
+      &-body {
+        border: none;
+      }
+    }
+
+    .collection {
+      &-item {
+        border: none;
+      }
+    }
+  }
+
+}

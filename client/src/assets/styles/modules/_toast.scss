@@ -1,0 +1,16 @@
+
+#toast-container {
+  top: 21%;
+  right: 1.5%;
+}
+
+.toast {
+
+  &.error {
+    @extend .red.lighten-2;
+  }
+
+  &.success {
+    @extend .green.lighten-2;
+  }
+}

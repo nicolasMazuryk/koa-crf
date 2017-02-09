@@ -9,6 +9,7 @@
     "test": "npm run build; NODE_ENV=test mocha --require 'babel-polyfill' --compilers js:babel-register ./tests/*"
   },
   "dependencies": {
+    "@types/materialize-css": "^0.97.34",
     "babel-polyfill": "^6.16.0",
     "debug": "^2.2.0",
     "jsonwebtoken": "^7.2.1",

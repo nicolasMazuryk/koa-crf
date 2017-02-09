@@ -1,0 +1,43 @@
+<section class="login">
+  <div class="login-container card">
+    <div class="login-header">
+      <img src="assets/images/logo.png" class="login-logo"/>
+      <div class="login-title">Авторизация</div>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value)" class="col s12">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">call</i>
+        <input
+               id="user_phone"
+               name="phone"
+               type="tel"
+               class="validate"
+               required
+               [(ngModel)]="user.phone"
+               #phone="ngModel"
+              >
+        <label for="user_phone">Номер телефона</label>
+        <div [hidden]="phone.valid || phone.pristine" class="">
+          Phone is required
+        </div>
+      </div>
+      <div class="input-field col s12">
+        <i class="material-icons prefix">vpn_key</i>
+        <input id="user_pass"
+               name="password"
+               type="password"
+               class="validate"
+               required
+               [(ngModel)]="user.password"
+               #password="ngModel"
+               >
+        <label for="user_pass">Пароль</label>
+        <div [hidden]="password.valid || password.pristine" class="">
+          Phone is required
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="loginForm.form.invalid" class="login-submit waves-effect waves-light btn btn-large">Войти</button>
+    </form>
+  </div>
+</section>
